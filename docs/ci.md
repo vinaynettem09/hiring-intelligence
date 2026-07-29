@@ -71,8 +71,8 @@ make check-int                                            # runs the -m integrat
 
 - Installs respect lockfiles and fail rather than rewrite them: `uv sync --frozen`,
   `pnpm install --frozen-lockfile`.
-- Runtimes are pinned: Python `3.12` (`UV_PYTHON`), Node `20`, pnpm `9` (matches
-  `pnpm-lock.yaml`), Postgres `16.9`.
+- Runtimes are pinned: Python `3.12` (`UV_PYTHON`), Node `24` (matches local dev; jsdom 30 +
+  undici need Node ≥ 22), pnpm `9` (matches `pnpm-lock.yaml`), Postgres `16.9`.
 - Caching: uv cache and the pnpm store are cached; no generated app state (`.next`, DBs) is
   cached — that could make tests nondeterministic.
 

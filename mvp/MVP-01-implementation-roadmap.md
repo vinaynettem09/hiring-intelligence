@@ -8,7 +8,7 @@
 | **Status** | Draft v0.1 — the plan we build from |
 | **Created** | 2026-07-23 |
 | **Type** | **Engineering execution plan.** NOT architecture, NOT product, NOT an ADR. The architecture corpus (ARCH-01→16) is **frozen and is the North Star**; this plan takes the cheap road toward it. |
-| **Team** | 1 founder (full-stack) + ChatGPT + Claude. No employees, no partners, near-zero budget. |
+| **Team** | 1 founder (full-stack). No employees, no partners, near-zero budget. |
 | **Goal** | **A real, usable MVP in users' hands in ~10–12 weeks** — demoable to users and investors, and capable of producing real learning about AS-1. |
 | **The question behind every choice** | **"What is the smallest thing that provides learning?"** — never "what is the most scalable thing?" |
 
@@ -372,7 +372,7 @@ Build in **thin vertical slices**, each shippable/demoable. Front-load the thesi
 
 ---
 
-## 14. Milestones *(week-by-week, ~10–12 weeks, solo + AI pairing)*
+## 14. Milestones *(week-by-week, ~10–12 weeks, solo pace)*
 
 | Week | Milestone | "Done" = |
 |---|---|---|
@@ -387,7 +387,7 @@ Build in **thin vertical slices**, each shippable/demoable. Front-load the thesi
 | **10** | **Ship + first users** | deployed for real; 1–3 friendly users run a real (or realistic) evaluation end-to-end |
 | **11–12** | Buffer / learning loop | fix what the first users hit; instrument the key learning questions; iterate |
 
-*Realistic caveats:* week 5–6 (AI quality) is the riskiest and may stretch — the evaluation output being *genuinely useful* is the whole point; spend time on the prompt + rubric + grounding there. Everything else is standard CRUD and moves fast with AI pairing.
+*Realistic caveats:* week 5–6 (AI quality) is the riskiest and may stretch — the evaluation output being *genuinely useful* is the whole point; spend time on the prompt + rubric + grounding there. Everything else is standard CRUD and moves fast.
 
 ---
 

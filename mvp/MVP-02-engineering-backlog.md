@@ -9,7 +9,7 @@
 | **Created** | 2026-07-23 |
 | **Type** | **Executable work only.** Derived from MVP-01. No architecture, no ADRs. **This is the final document; after this, everything is issues + code.** |
 | **The product** | **One amazing workflow**, not a platform: *Recruiter → Create Campaign → Invite Candidate → Candidate completes work sample → AI evaluates → Recruiter reviews evidence → Recruiter decides → Candidate receives feedback.* |
-| **Estimation basis** | Hours, solo founder + AI pairing (Claude generates, you integrate/decide/test). ~**216h** total ≈ 10–12 weeks at a sustainable solo pace. Estimates are for *building + basic tests*, not gold-plating. |
+| **Estimation basis** | Hours, solo founder. ~**216h** total ≈ 10–12 weeks at a sustainable solo pace. Estimates are for *building + basic tests*, not gold-plating. |
 
 ---
 
@@ -309,7 +309,7 @@ Every mutating endpoint: **tenant-scoped** (INV-10), **authorized** (server-side
 ### Story 10.2 — Sentry + prod logging · 2h
 - **DoD:** an exception in prod appears in Sentry with correlation id.
 
-### Story 10.3 — Author the real work-sample task + role template · 4h *(you + Claude — product content)*
+### Story 10.3 — Author the real work-sample task + role template · 4h *(product content)*
 - **Tasks:** write one strong, realistic engineering work-sample task; a starter role-profile template. *(This is product quality work, not boilerplate.)*
 - **DoD:** a real candidate could do a meaningful task; the evaluation of it is genuinely useful.
 
@@ -341,7 +341,7 @@ Benchmarking · Hiring Memory · Outcome Learning · Evidence Graph · Talent Po
 - Labels: `epic:foundation|auth|campaign|intake|candidate-flow|ai-eval|dashboard|decision|feedback|audit|ship`, `type:backend|frontend|tests`, `priority:critical-path`.
 - Milestones: `Week 1` … `Week 12`.
 - One issue per Story (copy tasks + DoD + estimate). One project board (Todo / Doing / Done).
-- Branch per story (`e5.4-evaluation-orchestration`), PR → review (with Claude) → merge → CI deploys.
+- Branch per story (`e5.4-evaluation-orchestration`), PR → review → merge → CI deploys.
 
 ---
 
@@ -349,4 +349,4 @@ Benchmarking · Hiring Memory · Outcome Learning · Evidence Graph · Talent Po
 
 This is the final planning artifact. The corpus is complete: **DOC-01→12 · VALIDATION-01→04 · PRODUCT-01 · ARCH-01→16 · SPRINT-0 · MVP-01 · MVP-02.** From here, no more documents — we build, review, test, and ship. The next words in this project should be **code**, starting with **Story 0.1**.
 
-*Team from here: Claude generates code/UI/boilerplate/refactors + reviews; you own architecture calls, AI-evaluation quality, prompts, security, and scope discipline; you integrate, decide, test, ship. Let's build.*
+*Process from here: build story-by-story — generate, review, refactor — owning architecture calls, AI-evaluation quality, prompts, security, and scope discipline; integrate, decide, test, ship. Let's build.*

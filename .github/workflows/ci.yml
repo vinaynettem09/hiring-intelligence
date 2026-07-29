@@ -75,7 +75,8 @@ jobs:
           version: 9 # matches pnpm-lock.yaml lockfileVersion 9.0
       - uses: actions/setup-node@v4
         with:
-          node-version: 20 # current LTS; pinned deliberately
+          node-version: 24 # matches the local dev/test environment; jsdom 30 + undici 8.9
+          # require Node >= 22 (Node 20 crashes vitest with `markAsUncloneable is not a function`)
           cache: pnpm
           cache-dependency-path: frontend/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile

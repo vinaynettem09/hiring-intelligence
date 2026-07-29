@@ -1,0 +1,11 @@
+# gitleaks configuration — extends the built-in ruleset.
+title = "hiring-intelligence gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allow documented placeholder values in the example env file."
+paths = [
+  '''\.env\.example''',
+]

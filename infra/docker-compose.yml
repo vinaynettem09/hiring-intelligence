@@ -1,0 +1,55 @@
+# Story 0.2 — one-command local stack: db + mailhog + backend.
+# Frontend still runs on the host (`make dev-frontend`) for fast reload.
+name: hiring-intelligence
+
+services:
+  db:
+    image: postgres:16.9-alpine   # pin the patch; bump deliberately (verify tag exists)
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: hiring
+    ports:
+      # Host 5433 → container 5432 (5432 is often taken by another local Postgres;
+      # the backend still reaches the DB over the internal network as db:5432).
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d hiring"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # web UI → http://localhost:8025
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    command: uv run uvicorn app.main:create_app --factory --host 0.0.0.0 --port 8000 --reload
+    environment:
+      APP_ENV: docker
+      # Ready for Story 0.4 (the placeholder app does not connect yet):
+      DATABASE_URL: postgresql+asyncpg://app:app@db:5432/hiring
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../backend/app:/app/app   # hot reload of source
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # Structured health endpoint (Story 0.6). Uses python (no curl in the image).
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 25s
+
+volumes:
+  pgdata:

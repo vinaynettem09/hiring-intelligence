@@ -1,0 +1,550 @@
+{
+  "generated_at": "2026-07-28T18:20:09.133196+00:00",
+  "provider": "mock",
+  "model": "deterministic-mock",
+  "prompt_version": "eval-prompt-v3",
+  "confidence_algorithm_version": "confidence-v2",
+  "note": "SYNTHETIC fixtures only. Behavioral regression baseline, NOT validation.",
+  "gate_summary": "gates: 2 PASS / 4 FAIL / 1 REVIEW",
+  "results": [
+    {
+      "fixture": "A_strong",
+      "verdict": "PASS",
+      "latency_ms": 0,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.129179Z"
+        },
+        "input_fingerprint": "sha256:d7d75543d7aa83fd690b08e1bfd5691c3bf8b011470015a82170a06f59135ece",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.129179Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    },
+    {
+      "fixture": "B_weak",
+      "verdict": "FAIL",
+      "latency_ms": 0,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.129179Z"
+        },
+        "input_fingerprint": "sha256:446d876bfd89e92069000fd36e152670bdfdaae23750e309f0ea0117f0b3fe4b",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.129179Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    },
+    {
+      "fixture": "C_mixed",
+      "verdict": "REVIEW",
+      "latency_ms": 15,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.131186Z"
+        },
+        "input_fingerprint": "sha256:0ea4237db1ad56f49e5b0d2fda58747c654530c521c505ef0753aee439a714a4",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.131186Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    },
+    {
+      "fixture": "D_insufficient",
+      "verdict": "FAIL",
+      "latency_ms": 0,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.131186Z"
+        },
+        "input_fingerprint": "sha256:809164b5e9ae7464f1c995485ac7e0f233b66bc47c5a3494eff98cff0b3b75f9",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.131186Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    },
+    {
+      "fixture": "E_injection",
+      "verdict": "FAIL",
+      "latency_ms": 0,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.131186Z"
+        },
+        "input_fingerprint": "sha256:6aa31f34f2df9e7c13c031c3abfa6258fe8cc8359b46a1baec5085cdb38181c2",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.131186Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    },
+    {
+      "fixture": "F_verbose_low",
+      "verdict": "FAIL",
+      "latency_ms": 0,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.133196Z"
+        },
+        "input_fingerprint": "sha256:317db3348f970af5e4db811dfb3c5d6005e918d5966d0146dc663567b9e5a238",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.133196Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    },
+    {
+      "fixture": "G_concise_high",
+      "verdict": "PASS",
+      "latency_ms": 0,
+      "outcome": {
+        "provenance": {
+          "provider": "mock",
+          "model": "deterministic-mock",
+          "model_version": "v1",
+          "prompt_version": "eval-prompt-v3",
+          "input_schema_version": "eval-input-v1",
+          "output_schema_version": "eval-proposal-v1",
+          "confidence_algorithm_version": "confidence-v2",
+          "generated_at": "2026-07-28T18:20:09.133196Z"
+        },
+        "input_fingerprint": "sha256:57eba263af7072d0d07ffa8f1237779c5594c111c17f77ebaa012c333c3df8a1",
+        "proposal": {
+          "recommendation": "PROCEED",
+          "confidence": 0.5,
+          "confidence_rationale": "Evidence-reliability signal: how sufficient (competency + evidence coverage) and how decisive (one-sided vs. mixed grounded observations) the evidence is. NOT a probability of on-the-job success, and orthogonal to the direction of the recommendation.",
+          "escalation_reason": null,
+          "competency_assessments": [
+            {
+              "competency": "SQL",
+              "assessment": "[MOCK] Deterministic placeholder assessment for 'SQL'. This is not a real evaluation.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ],
+              "provider_signal": null
+            }
+          ],
+          "strengths": [
+            {
+              "text": "[MOCK] Placeholder strength.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "concerns": [
+            {
+              "text": "[MOCK] Placeholder concern.",
+              "evidence_citations": [
+                {
+                  "evidence_id": "ev-1",
+                  "task_id": "task-1"
+                }
+              ]
+            }
+          ],
+          "evidence_coverage": {
+            "competencies_total": 1,
+            "competencies_assessed": 1,
+            "tasks_total": 1,
+            "tasks_with_evidence": 1
+          },
+          "provenance": {
+            "provider": "mock",
+            "model": "deterministic-mock",
+            "model_version": "v1",
+            "prompt_version": "eval-prompt-v3",
+            "input_schema_version": "eval-input-v1",
+            "output_schema_version": "eval-proposal-v1",
+            "confidence_algorithm_version": "confidence-v2",
+            "generated_at": "2026-07-28T18:20:09.133196Z"
+          }
+        },
+        "failure": null,
+        "usage": null
+      }
+    }
+  ]
+}

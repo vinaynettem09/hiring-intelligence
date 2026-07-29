@@ -1,0 +1,146 @@
+# One reproducible answer per change: "is this repository safe to merge?"
+#
+# Four required jobs, split by FAILURE DOMAIN so a red check names the problem
+# without spelunking:
+#   backend-quality      lint · format · types · unit tests · coverage gate
+#   frontend-quality     the exact `pnpm check` contract (typecheck · lint · Vitest · build)
+#   postgres-integration migrate-from-empty · single-head gate · Postgres-only tests
+#   compose-boot         the Docker image builds and serves /health
+#
+# Design decisions (see docs/ci.md):
+#   - No live AI. AI_PROVIDER=mock is set explicitly on every backend job (the code already
+#     defaults to mock and lazy-imports real SDKs); a unit guard proves it structurally.
+#   - Deterministic installs: `uv sync --frozen` + `pnpm --frozen-lockfile` fail rather than
+#     rewrite a lockfile. The optional `anthropic` extra is never installed in CI.
+#   - Least privilege: read-only token. Superseded PR commits are cancelled; main is not.
+#   - The canonical command set lives in package scripts / this file — never duplicated.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Least privilege: CI only needs to read the checkout.
+permissions:
+  contents: read
+
+# Cancel superseded PR runs; never cancel an in-flight build of the default branch.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  backend-quality:
+    name: Backend quality (lint · types · unit · coverage)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      UV_PYTHON: "3.12" # pin the interpreter deterministically (matches requires-python)
+      AI_PROVIDER: mock # belt-and-suspenders: never contact a real model provider in CI
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      - run: uv sync --frozen # fail if uv.lock is stale; do not silently rewrite it
+      - run: uv run ruff format --check .
+      - run: uv run ruff check .
+      - run: uv run mypy . # CI (Linux) is the authoritative type-check environment
+      - run: uv run pytest tests/unit --cov=app --cov-report=term-missing --cov-report=xml --cov-fail-under=80
+      - name: Upload coverage on failure # conservative: only a report, only when it helps
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: backend/coverage.xml
+          retention-days: 7
+          if-no-files-found: ignore
+
+  frontend-quality:
+    name: Frontend quality (typecheck · lint · test · build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9 # matches pnpm-lock.yaml lockfileVersion 9.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20 # current LTS; pinned deliberately
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      # `pnpm check` is the single source of truth for the frontend gate (package.json):
+      # typecheck -> lint -> Vitest/RTL behavioral tests -> production build.
+      - run: pnpm check
+
+  postgres-integration:
+    name: Postgres integration (migrate · single-head · Postgres-only tests)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:16.9-alpine # matches the app's pinned Postgres
+        env:
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+          POSTGRES_DB: hiring
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d hiring"
+          --health-interval 5s --health-timeout 3s --health-retries 10
+    env:
+      UV_PYTHON: "3.12"
+      AI_PROVIDER: mock
+      # Non-secret, deterministic credentials for an ephemeral CI database only.
+      DATABASE_URL: postgresql+asyncpg://app:app@localhost:5432/hiring
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      - run: uv sync --frozen
+      - name: Migrate from an empty database to head
+        run: uv run alembic upgrade head
+      - name: Assert exactly one Alembic head # catch an accidental branch/merge in the chain
+        run: |
+          uv run alembic heads
+          count=$(uv run alembic heads | grep -c '(head)')
+          echo "Alembic heads: $count"
+          if [ "$count" -ne 1 ]; then
+            echo "::error::Expected exactly one Alembic head, found $count. A migration branch was introduced."
+            exit 1
+          fi
+      # Run against the ACTUALLY-MIGRATED schema (Postgres-specific constraints, FK integrity,
+      # idempotency, uniqueness) — the semantics we deliberately defer from SQLite.
+      - run: uv run pytest tests/integration -m integration
+
+  compose-boot:
+    name: Docker Compose boots + serves /health
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose -f infra/docker-compose.yml up -d --build
+      - name: Wait for backend /health
+        run: |
+          for i in $(seq 1 40); do
+            if curl -fs http://localhost:8000/health; then echo "backend healthy"; exit 0; fi
+            sleep 3
+          done
+          echo "backend did not become healthy"
+          docker compose -f infra/docker-compose.yml logs
+          exit 1
+      - if: always()
+        run: docker compose -f infra/docker-compose.yml down -v

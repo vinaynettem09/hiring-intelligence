@@ -39,9 +39,14 @@ class Settings(BaseSettings):
     frontend_base_url: str = "http://localhost:3000"  # candidate links point here
     invitation_ttl_seconds: int = 1_209_600  # 14 days
 
-    # Email (Story 4.1). Local dev delivers to Mailhog (see infra/docker-compose).
+    # Email (Story 4.1). Local dev delivers to Mailhog (see infra/docker-compose):
+    # no auth, no TLS. A real transactional provider (Story 9.1) sets username/password
+    # and smtp_use_tls=True. Credentials come only from the environment — never committed.
     smtp_host: str = "localhost"
     smtp_port: int = 1025
+    smtp_username: str = ""  # set for a real provider (e.g. Brevo); empty = no SMTP AUTH
+    smtp_password: str = ""  # empty default; real value only via env (secret)
+    smtp_use_tls: bool = False  # True = STARTTLS (real providers); False = Mailhog
     email_from: str = "Hiring Intelligence <no-reply@hiring.local>"
 
     # AI evaluation (Story 5.1/5.3). Default `mock` = deterministic in-process provider

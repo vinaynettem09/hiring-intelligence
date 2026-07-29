@@ -1,0 +1,4 @@
+# Shell scripts must stay LF regardless of the OS they're committed from — a CRLF in the
+# shebang breaks the container entrypoint on Linux. (Story 9.1)
+*.sh text eol=lf
+docker-entrypoint.sh text eol=lf

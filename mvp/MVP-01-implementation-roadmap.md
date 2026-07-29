@@ -372,7 +372,7 @@ Build in **thin vertical slices**, each shippable/demoable. Front-load the thesi
 
 ---
 
-## 14. Milestones *(week-by-week, ~10–12 weeks, solo + AI pairing)*
+## 14. Milestones *(week-by-week, ~10–12 weeks, solo pace)*
 
 | Week | Milestone | "Done" = |
 |---|---|---|
@@ -387,7 +387,7 @@ Build in **thin vertical slices**, each shippable/demoable. Front-load the thesi
 | **10** | **Ship + first users** | deployed for real; 1–3 friendly users run a real (or realistic) evaluation end-to-end |
 | **11–12** | Buffer / learning loop | fix what the first users hit; instrument the key learning questions; iterate |
 
-*Realistic caveats:* week 5–6 (AI quality) is the riskiest and may stretch — the evaluation output being *genuinely useful* is the whole point; spend time on the prompt + rubric + grounding there. Everything else is standard CRUD and moves fast with AI pairing.
+*Realistic caveats:* week 5–6 (AI quality) is the riskiest and may stretch — the evaluation output being *genuinely useful* is the whole point; spend time on the prompt + rubric + grounding there. Everything else is standard CRUD and moves fast.
 
 ---
 

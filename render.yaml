@@ -1,0 +1,45 @@
+# Render Blueprint (Story 9.1) — BACKEND ONLY. The Next.js frontend deploys on Vercel;
+# PostgreSQL is a managed Neon database. See docs/deployment.md for the full runbook.
+#
+# Secrets (`sync: false`) are NOT stored here — you set them once in the Render dashboard.
+# This file never contains a real credential.
+services:
+  - type: web
+    name: hiring-intelligence-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free # sleeps after ~15 min idle → ~50s cold start on the next request
+    region: oregon
+    healthCheckPath: /health
+    autoDeploy: false # deploy manually only after CI is green on main (see docs/deployment.md)
+    envVars:
+      - key: APP_ENV
+        value: production
+      # AI: starts on the deterministic mock (safe, no data leaves). Switch to "gemini" and
+      # set GEMINI_API_KEY only when you've decided how to handle candidate-data retention.
+      - key: AI_PROVIDER
+        value: mock
+      - key: EVALUATION_CONFIDENCE_FLOOR
+        value: "0.5"
+      - key: SMTP_USE_TLS
+        value: "true"
+      # --- secrets: set in the Render dashboard, never in this file ---
+      - key: DATABASE_URL # Neon: postgresql+asyncpg://USER:PASS@HOST/DB?sslmode=require
+        sync: false
+      - key: JWT_SECRET # long random string (e.g. `openssl rand -hex 32`)
+        sync: false
+      - key: FRONTEND_BASE_URL # the Vercel URL, e.g. https://hiring-intelligence.vercel.app
+        sync: false
+      - key: EMAIL_FROM # e.g. "Hiring Intelligence <you@yourgmail.com>"
+        sync: false
+      - key: SMTP_HOST # e.g. smtp-relay.brevo.com
+        sync: false
+      - key: SMTP_PORT # e.g. 587
+        sync: false
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: GEMINI_API_KEY # only needed once AI_PROVIDER=gemini
+        sync: false

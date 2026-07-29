@@ -1,0 +1,1 @@
+"""Hiring Intelligence backend (MVP)."""

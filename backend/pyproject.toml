@@ -1,0 +1,116 @@
+[project]
+name = "hiring-intelligence-backend"
+version = "0.1.0"
+description = "Evidence-based hiring intelligence — backend (MVP)"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "pydantic-settings>=2.6",
+    "structlog>=24.4",
+    "sqlalchemy[asyncio]>=2.0",
+    "asyncpg>=0.30",
+    "alembic>=1.14",
+    "argon2-cffi>=23.1",     # password hashing
+    "email-validator>=2.2",  # pydantic EmailStr
+    "pyjwt>=2.9",            # access-token JWTs
+    "python-multipart>=0.0.9",  # multipart/form-data (CSV + file uploads)
+    "google-genai>=2.14.0",
+]
+
+[project.optional-dependencies]
+# Story 5.3: the real Anthropic provider. Pinned to an exact, verified version for
+# reproducibility. Kept OPTIONAL (not a core dep) because the adapter is lazily imported
+# and only used when AI_PROVIDER=anthropic — so tests/CI (which make ZERO real model
+# calls) never install or import it. Enable in a real deployment with:
+#     uv sync --extra anthropic
+# (verified against the official Anthropic Python SDK docs on 2026-07-28; requires-python >=3.9)
+anthropic = ["anthropic==0.120.1"]
+
+[dependency-groups]
+# Dev tooling is PINNED (exact ==) so CI and every machine lint/type/test with the
+# identical version. A tool upgrade is then a deliberate, reviewable change — never a
+# silent "passes on my machine" drift caused by resolving a newer linter. (mypy stays
+# on the 1.x line the strict config targets; 2.x is a separate, deliberate upgrade.)
+dev = [
+    "ruff==0.16.0",
+    "mypy==1.20.2",
+    "pytest==9.1.1",
+    "pytest-asyncio==1.4.0",
+    "httpx>=0.27",          # required by fastapi.testclient
+    "aiosqlite>=0.20",      # in-memory async DB for fast repo tests
+    "pytest-cov==7.1.0",    # coverage guardrail (CI)
+    "pre-commit>=4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+# ---------------- Ruff (lint + format) ----------------
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["app", "tests"]
+extend-exclude = ["migrations"]   # Alembic templates are not our style domain
+
+[tool.ruff.lint]
+# E/F=pyflakes+pycodestyle, I=isort, UP=pyupgrade, B=bugbear, SIM=simplify,
+# ASYNC=async pitfalls, S=security(bandit), C4=comprehensions, RUF=ruff.
+select = ["E", "F", "I", "UP", "B", "SIM", "ASYNC", "S", "C4", "RUF"]
+
+[tool.ruff.lint.isort]
+# Keep our own packages in their own import section (stdlib · third-party · app),
+# rather than interleaved with third-party. `src` alone isn't enough on newer ruff.
+known-first-party = ["app"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S"]          # asserts / test-only patterns are fine in tests
+
+[tool.ruff.lint.flake8-bugbear]
+# FastAPI's dependency markers are the idiomatic way to declare route deps and are
+# safe as argument defaults (B008 otherwise flags every `= Depends(...)`).
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Path",
+    "fastapi.Body",
+    "fastapi.Header",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ---------------- MyPy (strict types) ----------------
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+warn_return_any = true
+exclude = ["migrations/"]   # Alembic dynamic API fights strict typing
+
+# The Anthropic SDK is an OPTIONAL extra (see [project.optional-dependencies]); it is not
+# installed in CI/tests and has no bundled stubs. Its adapter lazy-imports it only when
+# AI_PROVIDER=anthropic. Ignore the missing import for that module ONLY — this does not
+# relax type checking of any of our own code.
+[[tool.mypy.overrides]]
+module = ["anthropic", "anthropic.*"]
+ignore_missing_imports = true
+
+# ---------------- pytest ----------------
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = [
+    "integration: requires a real Postgres (tests/integration)",
+]
+
+[tool.coverage.run]
+source = ["app"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:"]

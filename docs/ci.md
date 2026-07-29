@@ -16,9 +16,21 @@ request, and pushes to `main`. Read-only token; superseded PR commits are auto-c
 | **`backend-quality`** | Python correctness/style/types | `ruff format --check` · `ruff check` · **`mypy --strict`** · `pytest tests/unit` with **≥80% coverage** |
 | **`frontend-quality`** | Web app | the exact `pnpm check` contract — **typecheck · lint · Vitest/RTL · production build** |
 | **`postgres-integration`** | Real-DB semantics | migrate an **empty** Postgres → head · assert **exactly one Alembic head** · run the Postgres-only tests (uniqueness, idempotency, citation FK) against the migrated schema |
+| **`security`** | Secrets | **gitleaks** secret scan across full git history (pinned to the pre-commit version; `.gitleaks.toml`). A committed secret hard-fails. |
 | **`compose-boot`** | Container image | the Docker image builds and serves `/health` |
 
-These four are the intended **required** branch-protection checks. (This repo is not yet a
+These five are the intended **required** branch-protection checks.
+
+**Architecture regression gates (Story 8.2)** run inside `backend-quality` (they're pytest, no
+extra infra): `tests/unit/test_architecture_boundaries.py` walks the whole `app/` tree via AST
+and fails the build if (1) a vendor AI SDK is imported outside its adapter or at module scope,
+(2) the intelligence package imports Candidate PII / draft models, or (3) production code
+imports test modules. Alongside the existing tenant-isolation, AI/PII-boundary, and egress-guard
+tests, these make our core invariants executable — not just documented.
+
+**Dependency advisories** (`pip-audit`, `pnpm audit`) run as **informational** steps
+(`continue-on-error`) inside the backend/frontend jobs — a fresh upstream CVE with no fix must
+not block every unrelated PR. The hard supply-chain controls are pinned deps + frozen lockfiles. (This repo is not yet a
 GitHub remote; the founder selects these in *Settings → Branches* once it is pushed.)
 
 ## Zero live AI in CI

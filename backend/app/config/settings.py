@@ -39,9 +39,17 @@ class Settings(BaseSettings):
     frontend_base_url: str = "http://localhost:3000"  # candidate links point here
     invitation_ttl_seconds: int = 1_209_600  # 14 days
 
-    # Email (Story 4.1). Local dev delivers to Mailhog (see infra/docker-compose):
-    # no auth, no TLS. A real transactional provider (Story 9.1) sets username/password
-    # and smtp_use_tls=True. Credentials come only from the environment — never committed.
+    # Email transport (Story 4.1 / 9.1). `smtp` = local Mailhog dev (and any SMTP relay).
+    # `brevo_api` = Brevo's HTTPS transactional API — required in production on hosts that
+    # BLOCK outbound SMTP (e.g. Render blocks ports 25/465/587), where smtplib would hang.
+    email_provider: str = "smtp"  # "smtp" | "brevo_api"
+    # Brevo v3 API key (used only when email_provider == "brevo_api"). From the environment
+    # only — never committed/logged. This is the API key, NOT the SMTP key.
+    brevo_api_key: str = ""
+
+    # SMTP transport. Local dev delivers to Mailhog (see infra/docker-compose): no auth,
+    # no TLS. A real SMTP relay sets username/password and smtp_use_tls=True. Credentials
+    # come only from the environment — never committed.
     smtp_host: str = "localhost"
     smtp_port: int = 1025
     smtp_username: str = ""  # set for a real provider (e.g. Brevo); empty = no SMTP AUTH

@@ -22,6 +22,9 @@ services:
         value: mock
       - key: EVALUATION_CONFIDENCE_FLOOR
         value: "0.5"
+      # Email over Brevo's HTTPS API — Render BLOCKS outbound SMTP, so smtp transport hangs.
+      - key: EMAIL_PROVIDER
+        value: brevo_api
       - key: SMTP_USE_TLS
         value: "true"
       # --- secrets: set in the Render dashboard, never in this file ---
@@ -40,6 +43,8 @@ services:
       - key: SMTP_USERNAME
         sync: false
       - key: SMTP_PASSWORD
+        sync: false
+      - key: BREVO_API_KEY # Brevo v3 API key (NOT the SMTP key) — used by EMAIL_PROVIDER=brevo_api
         sync: false
       - key: GEMINI_API_KEY # only needed once AI_PROVIDER=gemini
         sync: false

@@ -5,7 +5,9 @@
 import { authStore } from "@/lib/auth-store";
 
 const BASE_URL = "/api"; // proxied to the backend by next.config rewrites (no CORS)
-const DEFAULT_TIMEOUT_MS = 10_000;
+// Generous so a free-tier backend cold start (or a slower AI evaluation) doesn't trip the
+// client abort ("signal is aborted without reason") before the server responds.
+const DEFAULT_TIMEOUT_MS = 30_000;
 
 /** Backend error shape (matches app/shared/error_handlers.py). */
 export interface ApiErrorBody {
